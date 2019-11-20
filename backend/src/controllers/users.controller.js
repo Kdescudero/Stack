@@ -40,7 +40,7 @@ usersCtrl.createUsers = async (req, res) => {
 };
 
 usersCtrl.deleteUsers = async (req, res) => {
-  await User.findOneAndDelete(req.params.id, (err, user) => {
+  await User.findByIdAndDelete(req.params.id, (err, user) => {
     if (err) {
       return res.status(400).json({
         ok: false,
