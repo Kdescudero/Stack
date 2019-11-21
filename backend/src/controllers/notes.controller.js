@@ -69,7 +69,7 @@ notesCtrl.createNotes = async (req, res) => {
 
 notesCtrl.updateNotes = async (req, res) => {
   const { title, content, author, date } = req.body;
-  await Note.findOneAndUpdate(
+  await Note.findByIdAndUpdate(
     req.params.id,
     {
       title,
@@ -96,7 +96,7 @@ notesCtrl.updateNotes = async (req, res) => {
 };
 
 notesCtrl.deleteNotes = async (req, res) => {
-  await Note.findOneAndDelete(
+  await Note.findByIdAndDelete(
     req.params.id,
     (err, note) => {
       if (err) {
