@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -69,6 +69,10 @@ const CreateNote = props => {
     window.location.href = "/";
   };
 
+  const handleOnChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const getNoteForId = async () => {
     const url = `http://localhost:3000/api/notes/${props.match.params.id}`;
     const res = await axios.get(url);
@@ -76,23 +80,16 @@ const CreateNote = props => {
     setDate(new Date(res.data.note.date));
   };
 
-  const handleOnChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const memoizedCallback = useCallback(() => {
-    return getUsers(), getNoteForId();
-  });
-
   useEffect(() => {
-    getUsers();
     if (props.match.params.id) {
       setEditing(true);
       setId(props.match.params.id);
       getNoteForId();
     }
-    memoizedCallback();
-  }, [setUsers, props.match.params.id, memoizedCallback]);
+    getUsers();
+  }, [props.match.params.id, setEditing, setForm, getNoteForId, getUsers]);
+
+  console.log("Here");
 
   return (
     <div className="col-md-6 offset-md-3">
